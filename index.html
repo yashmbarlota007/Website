@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Website | Live Instant Updates</title>
+  <title>Website | Billing and FMS Desk</title>
   <style>
     :root {
       --bg: #0b0f19;
@@ -24,16 +24,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 20px;
+      justify-content: flex-start;
+      padding: 24px 16px;
     }
     .container {
-      max-width: 680px;
+      max-width: 720px;
       width: 100%;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 32px 24px;
+      padding: 28px 24px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       text-align: center;
     }
@@ -47,7 +47,7 @@
       border-radius: 9999px;
       font-size: 13px;
       font-weight: 600;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
     .pulse-dot {
@@ -63,72 +63,117 @@
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
     h1 {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       background: linear-gradient(135deg, #60a5fa, #a78bfa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     p.lead {
       color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: 14px;
+      line-height: 1.5;
       margin-bottom: 24px;
     }
-    .card-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
+    .desk-card {
+      background: #161e2e;
+      border: 1px solid #283548;
+      border-radius: 14px;
+      overflow: hidden;
       margin-bottom: 24px;
       text-align: left;
     }
-    @media (max-width: 540px) {
-      .card-grid { grid-template-columns: 1fr; }
+    .desk-card-header {
+      padding: 14px 18px;
+      background: #1c2638;
+      border-bottom: 1px solid #283548;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .info-card {
-      background: #1e293b;
-      padding: 14px 16px;
+    .desk-card-header h3 {
+      font-size: 16px;
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .desk-card-header .tag {
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    .image-container {
+      position: relative;
+      background: #0d1117;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+    }
+    .image-container img {
+      width: 100%;
+      max-height: 440px;
+      object-fit: cover;
       border-radius: 10px;
-      border: 1px solid #334155;
+      border: 1px solid #30363d;
+      cursor: zoom-in;
+      transition: transform 0.2s ease;
     }
-    .info-card h4 {
-      font-size: 12px;
+    .image-container img:hover {
+      transform: scale(1.01);
+    }
+    .desk-card-body {
+      padding: 16px 18px;
+      font-size: 13px;
       color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
     }
-    .info-card p {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
+    .desk-card-body p {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .url-box {
+      margin-top: 10px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #93c5fd;
       word-break: break-all;
     }
-    .btn {
-      display: inline-block;
-      background: var(--accent);
-      color: white;
-      text-decoration: none;
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn:hover {
-      background: var(--accent-hover);
-    }
     .status-box {
-      margin-top: 20px;
+      margin-top: 16px;
       padding: 12px;
       border-radius: 8px;
       font-size: 13px;
       background: #0f172a;
       border: 1px solid #1e293b;
       color: #94a3b8;
+    }
+    /* Modal for zoom */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal img {
+      max-width: 95%;
+      max-height: 90vh;
+      border-radius: 8px;
+      border: 2px solid #3b82f6;
     }
   </style>
 </head>
@@ -138,34 +183,49 @@
       <span class="pulse-dot"></span>
       Instant Live Auto-Update Active
     </div>
-    <h1>Website Application</h1>
+    <h1>Billing and FMS Desk</h1>
     <p class="lead">
-      Ye application Antigravity ke zero-storage automated workflow ke sath connected hai.
-      Yahan kiya gaya koi bhi edit bina kisi manual pull ya deploy ke automatically live reflect hota hai.
+      Ye photo successfully <b>Billing and FMS Desk</b> ke reference benchmark ke roop me upload kar di gayi hai.
     </p>
 
-    <div class="card-grid">
-      <div class="info-card">
-        <h4>GitHub Repo</h4>
-        <p>yashmbarlota007/Website</p>
+    <!-- BILLING AND FMS DESK CARD -->
+    <div class="desk-card">
+      <div class="desk-card-header">
+        <h3>🖥️ Billing and FMS Desk</h3>
+        <span class="tag">Reference Benchmark</span>
       </div>
-      <div class="info-card">
-        <h4>Deployment Sync</h4>
-        <p>Instant (Zero Manual Deploy)</p>
+      <div class="image-container">
+        <img 
+          src="./assets/billing_and_fms_desk.jpg" 
+          alt="Billing and FMS Desk Photo" 
+          onclick="openZoom(this.src)" 
+          title="Click to zoom photo"
+        />
       </div>
-      <div class="info-card">
-        <h4>Apps Script ID</h4>
-        <p>1YZxESag34744KYNigqJNU6wOqre6t1J5YBhBXcWYypyisNgLA-ydTdCY</p>
-      </div>
-      <div class="info-card">
-        <h4>Status</h4>
-        <p style="color: var(--success);">Online &amp; Synced</p>
+      <div class="desk-card-body">
+        <p><b>5S Workplace Standard:</b> Desk setup with PC, barcode scanner, keyboard, printer, and billing peripherals properly arranged.</p>
+        <p><b>Permanent Cloud URL:</b></p>
+        <div class="url-box">
+          https://raw.githubusercontent.com/yashmbarlota007/Website/main/assets/billing_and_fms_desk.jpg
+        </div>
       </div>
     </div>
 
     <div class="status-box">
-      🚀 <b>Live Pipeline:</b> Antigravity online edit karega ➔ GitHub commit hoga ➔ Live URL par instantly update load hoga!
+      🚀 <b>Zero-Storage Live Sync:</b> Photo automatically hosted in GitHub (ssets/billing_and_fms_desk.jpg) with instant live reload!
     </div>
   </div>
+
+  <!-- ZOOM MODAL -->
+  <div id="zoomModal" class="modal" onclick="this.style.display='none'">
+    <img id="zoomImg" src="" alt="Zoomed view" />
+  </div>
+
+  <script>
+    function openZoom(src) {
+      document.getElementById('zoomImg').src = src;
+      document.getElementById('zoomModal').style.display = 'flex';
+    }
+  </script>
 </body>
 </html>
